@@ -25,7 +25,7 @@ function lastDirName(dirName){
 }
 
 
-// Pug 
+// Pug
 
 function pugBuild() {
     return src(paths.main.pug)
@@ -76,6 +76,7 @@ function pugDev() {
 }
 
 // Sass
+
 function sassDev(){
     return src(paths.main.sass)
         .pipe(

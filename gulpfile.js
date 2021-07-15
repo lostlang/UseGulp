@@ -1,18 +1,21 @@
 const { series, parallel, watch, src, dest } = require('gulp')
-const pug = require('gulp-pug')
-const rename = require('gulp-rename')
 const browserSync = require('browser-sync').create()
+const rename = require('gulp-rename')
+const pug = require('gulp-pug')
+const sass = require('gulp-sass')(require('sass'))
 
 const paths = {
-    pug: {
-        src: 'src/**/*.pug',
+    src: {
+        pug: 'src/**/*.pug',
+        sass: 'src/**/*.sass'
     },
-    build: {
-        html: 'build'
+    main: {
+        pug: 'src/**/index.pug',
+        sass: 'src/**/main.sass'
     },
-    dev: {
-        html: 'dev'
-    }
+    build: 'build',
+    dev: 'dev'
+
 }
 
 // Last dir name
@@ -25,7 +28,7 @@ function lastDirName(dirName){
 // Pug 
 
 function pugBuild() {
-    return src(paths.pug.src)
+    return src(paths.main.pug)
         .pipe(
             pug({
             })
@@ -42,12 +45,12 @@ function pugBuild() {
             )
         )
         .pipe(
-            dest(paths.build.html)
+            dest(paths.build)
         )
 }
 
 function pugDev() {
-    return src(paths.pug.src)
+    return src(paths.main.pug)
         .pipe(
             pug({
                 pretty:true
@@ -65,7 +68,28 @@ function pugDev() {
             )
         )
         .pipe(
-            dest(paths.dev.html)
+            dest(paths.dev)
+        )
+        .pipe(
+            browserSync.stream()
+        )
+}
+
+// Sass
+function sassDev(){
+    return src(paths.main.sass)
+        .pipe(
+            sass()
+        )
+        .pipe(
+            rename({
+                dirname: '',
+                basename: 'main',
+                extname: '.css'
+            })
+        )
+        .pipe(
+            dest(paths.dev)
         )
         .pipe(
             browserSync.stream()
@@ -75,25 +99,27 @@ function pugDev() {
 // Watch
 
 function watcher(){
-    watch(paths.pug.src, pugDev)
+    watch(paths.src.pug, pugDev)
+    watch(paths.src.sass, sassDev)
 }
 
 // Server
 function server(){
     browserSync.init({
             server: {
-                baseDir: paths.dev.html,
+                baseDir: paths.dev,
             },
             notify: false
         }
     )
 }
 
-const dev = series (
-    pugDev
+const dev = parallel (
+    pugDev,
+    sassDev
 )
 
-exports.default = series(
+exports.dev = series(
     dev,
     parallel(
         watcher,

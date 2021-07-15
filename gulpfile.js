@@ -1,16 +1,17 @@
-const { series, parallel, src, dest } = require('gulp')
+const { series, parallel, watch, src, dest } = require('gulp')
 const pug = require('gulp-pug')
 const rename = require('gulp-rename')
+const browserSync = require('browser-sync').create()
 
 const paths = {
     pug: {
         src: 'src/**/*.pug',
     },
     build: {
-        pug: 'build'
+        html: 'build'
     },
     dev: {
-        pug: 'dev'
+        html: 'dev'
     }
 }
 
@@ -41,7 +42,7 @@ function pugBuild() {
             )
         )
         .pipe(
-            dest(paths.build.pug)
+            dest(paths.build.html)
         )
 }
 
@@ -64,10 +65,38 @@ function pugDev() {
             )
         )
         .pipe(
-            dest(paths.dev.pug)
+            dest(paths.dev.html)
+        )
+        .pipe(
+            browserSync.stream()
         )
 }
 
-exports.dev = series(
-    pugDev,
+// Watch
+
+function watcher(){
+    watch(paths.pug.src, pugDev)
+}
+
+// Server
+function server(){
+    browserSync.init({
+            server: {
+                baseDir: paths.dev.html,
+            },
+            notify: false
+        }
+    )
+}
+
+const dev = series (
+    pugDev
+)
+
+exports.default = series(
+    dev,
+    parallel(
+        watcher,
+        server
+    )
 )

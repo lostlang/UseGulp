@@ -1,15 +1,10 @@
-
 @import nullstyle
-
 //@import dev
-
 @import colors
 
-html, body
-  width: 100%
-  height: 100%
-
 body
+  width: inherit
+  height: inherit
   background: $light
   display: grid
   gap: .25em
@@ -22,10 +17,8 @@ aside
   grid-area: aside
   background: $bootstrap-dark
 
-@import navbar/universal
-
+@import navbar/base
 @media ( min-width: 768px )
   @import navbar/desctop
-
 @media ( max-width: 767px )
   @import navbar/phone

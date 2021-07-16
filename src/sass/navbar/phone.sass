@@ -1,24 +1,12 @@
+body
+  grid-template-areas: "nav" "main" "aside"
+  grid-auto-rows: min-content
+
 nav
-  display: flex
-  flex-direction: columns
-  justify-content: space-between
-  height: min-content
-
   ul
-    display: flex
-
-  *
-    display: flex
     gap: .5em
-
-  #start, #end
-    margin: .25em
-    padding: .25em
-    border-radius: .5em
 
   #center
     padding: 0em 1em
-    align-items: center
-    justify-content: center
     border-bottom-left-radius: .5em
     border-bottom-right-radius: .5em

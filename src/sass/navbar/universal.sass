@@ -1,15 +1,31 @@
 @import ../colors
 
 nav
-  li
-    list-style: none
+  display: flex
+  grid-area: nav
+  justify-content: space-between
 
-  #start, #center, #end
-    background: $dark
+  ul
+    display: flex
+    li
+      list-style: none
 
   button
     width: 48px
     height: 48px
     background: $light
-    border-radius: 0.5em
+    border-radius: .5em
     cursor: pointer
+
+  #start, #center, #end
+    display: flex
+    background: $dark
+
+  #start, #end
+    margin: .25em
+    padding: .25em
+    border-radius: .5em
+
+  #center
+    align-items: center
+    justify-content: center

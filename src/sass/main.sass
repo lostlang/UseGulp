@@ -1,5 +1,5 @@
-@import nullstyle
-//@import dev
+@import base
+@import dev
 @import colors
 
 body
@@ -9,16 +9,15 @@ body
   display: grid
   gap: .25em
 
+
+
 main
   grid-area: main
-  background: $dark
 
 aside
   grid-area: aside
   background: $bootstrap-dark
 
-@import navbar/base
-@media ( min-width: 768px )
-  @import navbar/desctop
-@media ( max-width: 767px )
-  @import navbar/phone
+@import devise
+@import navbar/all
+@import main/all

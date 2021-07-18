@@ -1,0 +1,12 @@
+
+@media ( min-width: 768px )
+  body
+    grid-template-areas: "nav main" "nav aside"
+    grid-template-columns: min-content
+  @import navbar/desctop
+
+@media ( max-width: 767px )
+  body
+    grid-template-areas: "nav" "main" "aside"
+    grid-auto-rows: min-content
+  @import navbar/phone
